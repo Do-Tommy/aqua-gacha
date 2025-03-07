@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Phaser from 'phaser';
 import TankScene from './scenes/TankScene';
 import './App.css';
 
-function App() {
+const App: React.FC = () => {
   useEffect(() => {
-    const config = {
+    const config: Phaser.Types.Core.GameConfig = {
       type: Phaser.AUTO,
       width: 800,
       height: 600,
@@ -16,20 +16,19 @@ function App() {
     new Phaser.Game(config);
   }, []);
 
+  const handleGachaPull = () => {
+    fetch('/api/gacha/pull', { method: 'POST' })
+      .then(res => res.json())
+      .then(data => console.log('New fish:', data));
+  };
+
   return (
-    <div>
+    <div className="app">
       <h1>Aqua Gacha</h1>
-      <div id="game-container"></div>
+      <div id="game-container" />
       <button onClick={handleGachaPull}>Pull a Fish!</button>
     </div>
   );
-}
-
-const handleGachaPull = () => {
-  // API call to backend for gacha result
-  fetch('/api/gacha/pull', { method: 'POST' })
-    .then(res => res.json())
-    .then(data => console.log('New fish:', data));
 };
 
 export default App;
